@@ -51,19 +51,27 @@ const getComputerChoice = function () {
   }
 };
 
-const getWinner = function (computersChoice, playersChoice) {
-  if (computersChoice === playersChoice) {
-    return RESULT_DRAW;
-  } else if (
-    (computersChoice === ROCK && playersChoice === PAPER) ||
-    (computersChoice === PAPER && playersChoice === SCISSORS) ||
-    (computersChoice === SCISSORS && playersChoice === ROCK)
-  ) {
-    return RESULT_PLAYER_WINS;
-  } else {
-    return RESULT_COMPUTER_WINS;
-  }
-};
+const getWinner = (computersChoice, playersChoice) =>
+  computersChoice === playersChoice
+    ? RESULT_DRAW
+    : (computersChoice === ROCK && playersChoice === PAPER) ||
+      (computersChoice === PAPER && playersChoice === SCISSORS) ||
+      (computersChoice === SCISSORS && playersChoice === ROCK)
+    ? RESULT_PLAYER_WINS
+    : RESULT_COMPUTER_WINS;
+
+//! above is ternary operator, alternative way of writing below code!
+// *   if (computersChoice === playersChoice) {
+// *    return RESULT_DRAW;
+// *  } else if (
+// *    (computersChoice === ROCK && playersChoice === PAPER) ||
+// *    (computersChoice === PAPER && playersChoice === SCISSORS) ||
+// *  (computersChoice === SCISSORS && playersChoice === ROCK)
+// *  ) {
+// *  return RESULT_PLAYER_WINS;
+// *  } else {
+// *   return RESULT_COMPUTER_WINS;
+// *  }
 
 startGameBtn.addEventListener("click", function () {
   if (gameIsRunning) {
@@ -75,5 +83,14 @@ startGameBtn.addEventListener("click", function () {
   console.log(playerSelection);
   const computerChoice = getComputerChoice();
   const winner = getWinner(computerChoice, playerSelection);
-  console.log(winner);
+  let message = `You picked ${playerSelection}, computer picked ${computerChoice}, therefore you `;
+  if (winner === RESULT_DRAW) {
+    message = message + "had a draw.";
+  } else if (winner === RESULT_PLAYER_WINS) {
+    message = message + "won";
+  } else {
+    message = message + "lost";
+  }
+  alert(message);
+  gameIsRunning = false;
 });
